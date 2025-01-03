@@ -1,7 +1,7 @@
 // Question : Pourquoi créer un module séparé pour les connexions aux bases de données ?
-// Réponse : 
+// Réponse : Pour organiser le code, faciliter la maintenance et réutiliser les connexions.
 // Question : Comment gérer proprement la fermeture des connexions ?
-// Réponse : 
+// Réponse : Utiliser des méthodes de fermeture dans les gestionnaires d'événements pour libérer les ressources.
 
 const { MongoClient } = require('mongodb');
 const redis = require('redis');
@@ -10,16 +10,43 @@ const config = require('./env');
 let mongoClient, redisClient, db;
 
 async function connectMongo() {
-  // TODO: Implémenter la connexion MongoDB
-  // Gérer les erreurs et les retries
+  try {
+    mongoClient = new MongoClient(config.mongodb.uri);
+    await mongoClient.connect();
+    db = mongoClient.db(config.mongodb.dbName);
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
+  }
 }
 
 async function connectRedis() {
-  // TODO: Implémenter la connexion Redis
-  // Gérer les erreurs et les retries
+  try {
+    redisClient = redis.createClient({
+      url: config.redis.uri
+    });
+
+    await redisClient.connect();
+    
+    redisClient.on('connect', () => {
+      console.log('Redis connected');
+    });
+    
+    redisClient.on('error', (err) => {
+      console.error('Redis error:', err);
+    });
+  } catch (error) {
+    console.error('Error connecting to Redis:', error);
+    process.exit(1);
+  }
 }
 
 // Export des fonctions et clients
 module.exports = {
-  // TODO: Exporter les clients et fonctions utiles
+  connectMongo,
+  connectRedis,
+  mongoClient,
+  redisClient,
+  db,
 };

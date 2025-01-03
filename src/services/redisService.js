@@ -26,5 +26,4 @@ async function cacheData(key, data, ttl) {
 
 module.exports = {
   cacheData,
-  getData,
 };
