@@ -4,8 +4,8 @@
 // Réponse : L'application peut échouer au démarrage ou se comporter de manière imprévisible.
 
 const dotenv = require('dotenv');
-dotenv.config({ path: '../.env' });
-console.log(process.env);
+dotenv.config({ path: '/.env' });
+require('dotenv').config();
 
 const requiredEnvVars = [
   'MONGODB_URI',

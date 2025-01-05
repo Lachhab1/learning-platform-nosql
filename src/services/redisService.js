@@ -24,6 +24,19 @@ async function cacheData(key, data, ttl) {
   });
 }
 
+//fonction pour récupérer les données du cache
+async function getData(key) {
+  return new Promise((resolve, reject) => {
+    client.get(key, (err, reply) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(JSON.parse(reply));
+    });
+  });
+}
+
 module.exports = {
   cacheData,
+  getData,
 };
