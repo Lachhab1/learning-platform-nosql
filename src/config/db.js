@@ -7,7 +7,7 @@ const { MongoClient } = require('mongodb');
 const redis = require('redis');
 const config = require('./env');
 
-let mongoClient, redisClient, db;
+let mongoClient, redisClient, db = null;
 
 async function connectMongo() {
   try {
@@ -26,9 +26,7 @@ async function connectRedis() {
     redisClient = redis.createClient({
       url: config.redis.uri
     });
-
     await redisClient.connect();
-    
     redisClient.on('connect', () => {
       console.log('Redis connected');
     });
@@ -41,12 +39,34 @@ async function connectRedis() {
     process.exit(1);
   }
 }
+// return redis client
+function getRedisClient() {
+  if (!redisClient || !redisClient.isOpen) {
+    throw new Error('Redis client is not connected.');
+  }
+  return redisClient;
+}
+
+async function closeRedis() {
+  if (redisClient && redisClient.isOpen) {
+    await redisClient.quit();
+    console.log('Redis connection closed.');
+  }
+}
 
 // Export des fonctions et clients
 module.exports = {
   connectMongo,
+  getDb: () => {
+    if (!db) {
+      throw new Error('Database is not connected');
+    }
+    return  db;
+  },
   connectRedis,
   mongoClient,
   redisClient,
+  getRedisClient,
+  closeRedis,
   db,
 };

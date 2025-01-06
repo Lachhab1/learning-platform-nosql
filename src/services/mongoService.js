@@ -1,9 +1,8 @@
 // Question: Pourquoi créer des services séparés ?
 // Réponse: Créer des services séparés permet de mieux organiser le code, de le rendre plus modulaire et réutilisable. Cela facilite également la maintenance et le débogage du code.
 
-const { db } = require('../config/db');
-
 const { ObjectId } = require('mongodb').BSON;
+const  { getDb } = require('../config/db');
 
 // Fonctions utilitaires pour MongoDB
 async function findOneById(collection, id) {
@@ -16,6 +15,7 @@ async function findOneById(collection, id) {
   }
 
   try {
+    const db = getDb();
     const objectId = new ObjectId(id);
     const result = await collection.findOne({ _id: objectId });
     return result;
@@ -27,7 +27,8 @@ async function findOneById(collection, id) {
 // fonction pour créer un document dans une collection
 async function create(collectionName, data) {
   try {
-  const collection = db.db.collection(collectionName);
+  const db = getDb();
+  const collection = db.collection(collectionName);
   const result = await collection.insertOne(data);
   return result;
   } catch (error) {
@@ -38,21 +39,36 @@ async function create(collectionName, data) {
 }
 
 async function findOne(collectionName, query) {
-  const collection = db.db.collection(collectionName);
+  const db = getDb();
+  const collection = db.collection(collectionName);
   const result = await collection.findOne(query);
   return result;
 }
 
 async function updateOne(collectionName, query, update) {
-  const collection = db.db.collection(collectionName);
+  const db = getDb();
+  const collection = db.collection(collectionName);
   const result = await collection.updateOne(query, { $set: update });
   return result;
 }
 
 async function deleteOne(collectionName, query) {
-  const collection = db.db.collection(collectionName);
+  const db = getDb();
+  const collection = db.collection(collectionName);
   const result = await collection.deleteOne(query);
   return result;
+}
+
+async function find(collectionName, query) {
+  const db = getDb();
+  const collection = db.collection(collectionName);
+  return await collection.find(query).toArray();
+}
+
+async function aggregate(collectionName, pipeline) {
+  const db = getDb();
+  const collection = db.collection(collectionName);
+  return await collection.aggregate(pipeline).toArray();
 }
 
 
@@ -63,4 +79,6 @@ module.exports = {
   findOne,
   updateOne,
   deleteOne,
+  find,
+  aggregate,
 };

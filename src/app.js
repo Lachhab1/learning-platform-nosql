@@ -4,18 +4,19 @@ const db = require('./config/db');
 const courseRoutes = require('./routes/courseRoutes');
 const userRoutes = require('./routes/userRoutes');
 const enrollmentRoutes = require('./routes/enrollmentRoutes');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
-
+app.use(errorHandler);
 async function startServer() {
   try {
     await db.connectMongo();
     await db.connectRedis();
 
     app.use(express.json());
-    app.use('/courses', courseRoutes);
-    app.use('/users', userRoutes);
-    app.use('/enrollments', enrollmentRoutes);
+    app.use('/api/courses', courseRoutes);
+    app.use('/api/users', userRoutes);
+    app.use('/api/enrollments', enrollmentRoutes);
 
     app.listen(config.port, () => {
       console.log(`Server started on port ${config.port}`);
