@@ -1,59 +1,104 @@
+# 🎓 Plateforme d'Apprentissage NoSQL
 
-Markdown
-# Learning Platform NoSQL
+Une plateforme moderne et interactive pour maîtriser les bases de données NoSQL, conçue pour offrir une expérience d'apprentissage immersive.
 
-A learning platform project using NoSQL database technology.
+## 📚 Vue d'ensemble
 
-## Table of Contents
+Cette plateforme d'apprentissage offre une approche pratique pour comprendre et maîtriser les technologies NoSQL. Elle combine théorie et pratique à travers des modules interactifs, permettant aux apprenants de développer leurs compétences dans un environnement réaliste.
 
-- [About](#about)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+## 🏗 Structure du Projet
 
-## About
+```plaintext
+project-root/
+├── config/
+│   ├── db.js          # Configuration de la base de données
+│   └── env.js         # Gestion des variables d'environnement
+├── controllers/
+│   ├── courseController.js     # Gestion des cours
+│   ├── enrollmentController.js # Gestion des inscriptions
+│   └── userController.js       # Gestion des utilisateurs
+├── middleware/
+│   ├── errorHandler.js         # Gestion centralisée des erreurs
+│   └── validators.js           # Validation des données
+├── routes/
+│   ├── courseRoutes.js        # Routes pour les cours
+│   ├── enrollmentRoutes.js    # Routes pour les inscriptions
+│   └── userRoutes.js          # Routes pour les utilisateurs
+├── services/
+│   ├── mongoService.js        # Service MongoDB
+│   └── redisService.js        # Service Redis
+├── app.js                     # Point d'entrée de l'application
+├── .env                      # Variables d'environnement
+├── .gitignore               # Fichiers ignorés par Git
+├── README.md                # Documentation du projet
+├── dump.rdb                 # Dump Redis
+├── package-lock.json        # Verrouillage des versions des dépendances
+└── package.json            # Configuration du projet et dépendances
+```
 
-This project is a learning platform designed to help users understand and work with NoSQL databases. It demonstrates various features and functionalities of NoSQL databases through practical examples and interactive sessions.
+## ✨ Fonctionnalités
 
-## Features
+### Fonctionnalités Principales
+- **Gestion des Cours**: CRUD complet pour les cours via `courseController.js`
+- **Système d'Inscription**: Gestion des inscriptions avec `enrollmentController.js`
+- **Gestion des Utilisateurs**: Authentication et autorisation via `userController.js`
+- **Cache Redis**: Optimisation des performances avec Redis
+- **Validation des Données**: Middleware de validation robuste
 
-- Interactive tutorials on NoSQL databases
-- Practical examples and exercises
-- User-friendly interface
-- Real-time data operations
+## 🛠 Technologies Utilisées
 
-## Installation
+- **Backend**: Node.js avec Express.js
+- **Base de Données**: 
+  - MongoDB pour le stockage principal
+  - Redis pour le cache et les sessions
+- **Validation**: Middleware personnalisé
+- **Gestion d'Erreurs**: Système centralisé
 
-To get a local copy up and running, follow these simple steps.
+## 🚀 Installation
 
-### Prerequisites
+### Prérequis
+- Node.js (v14.x ou supérieur)
+- npm (v6.x ou supérieur)
+- MongoDB
+- Redis
 
-- Node.js (v14.x or later)
-- npm (v6.x or later)
+### Installation
 
-### Clone the Repository
+```bash
+# Cloner le dépôt
 git clone https://github.com/Lachhab1/learning-platform-nosql.git
 cd learning-platform-nosql
-Public code references from 8 repositories
-Install Dependencies
-bash
+
+# Installer les dépendances
 npm install
-Public code references from 8 repositories
-Start the Application
-bash
+
+# Configurer l'environnement
+cp .env.example .env
+# Éditer .env avec vos paramètres
+
+# Lancer l'application
 npm start
-Public code references from 8 repositories
-The app will be available at http://localhost:3000.
+```
 
-Usage
-Open your web browser and navigate to http://localhost:3000.
-Follow the on-screen instructions to start learning about NoSQL databases.
-Explore the different tutorials and practice exercises available on the platform.
+## 📝 API Routes
 
-Contact
-GitHub: Lachhab1
-Code
-Feel free to update the sections as needed based on additional details or changes to your project.
+### Routes Utilisateurs
+```
+
+```
+
+### Routes Cours
+```
+GET    /api/courses           # Liste des cours
+POST   /api/courses          # Créer un cours
+GET    /api/courses/:id      # Détails d'un cours
+PUT    /api/courses/:id      # Mettre à jour un cours
+DELETE /api/courses/:id      # Supprimer un cours
+```
+
+### Routes Inscriptions
+```
+POST   /api/enrollments          # S'inscrire à un cours
+GET    /api/enrollments          # Liste des inscriptions
+DELETE /api/enrollments/:id      # Annuler une inscription
+```
