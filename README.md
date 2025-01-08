@@ -35,8 +35,6 @@ To get a local copy up and running, follow these simple steps.
 - npm (v6.x or later)
 
 ### Clone the Repository
-
-```bash
 git clone https://github.com/Lachhab1/learning-platform-nosql.git
 cd learning-platform-nosql
 Public code references from 8 repositories
